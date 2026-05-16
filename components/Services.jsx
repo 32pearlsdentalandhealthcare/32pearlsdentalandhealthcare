@@ -186,9 +186,26 @@ export default function Services() {
                     transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                   >
                     <div className="px-4 pb-8 md:px-8 md:pb-12 pt-0 border-t border-gray-50">
-                      <div className="mt-8 flex justify-center">
-                        {/* Highlights: Ultra-compact smart frame */}
-                        <div className="relative rounded-[24px] overflow-hidden bg-black shadow-premium w-full max-w-md group border-[4px] border-white ring-1 ring-gray-100 aspect-video md:h-[300px]">
+                      <div className="mt-8 flex flex-col md:flex-row gap-8 items-center">
+                        {/* Description & Benefits */}
+                        <div className="flex-1 space-y-6 px-2">
+                          <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+                            {svc.desc}
+                          </p>
+                          <ul className="space-y-3">
+                            {svc.benefits.map((benefit, bIdx) => (
+                              <li key={bIdx} className="flex items-center gap-3 text-gray-800 font-bold text-sm md:text-base">
+                                <div className="w-6 h-6 rounded-full bg-[#ef8139]/10 flex items-center justify-center shrink-0">
+                                  <CheckCircle2 size={14} className="text-[#ef8139]" />
+                                </div>
+                                {benefit}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Image/Video Frame */}
+                        <div className="relative rounded-[24px] overflow-hidden bg-black shadow-premium w-full md:w-1/2 group border-[4px] border-white ring-1 ring-gray-100 aspect-video md:h-[280px] shrink-0">
                           {svc.image.endsWith('.mp4') ? (
                             <video 
                               src={svc.image} 
