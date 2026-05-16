@@ -119,7 +119,7 @@ export default function FloatingActions() {
 
       {/* Book Now pill that appears after scroll */}
       <motion.a
-        href="#appointment"
+        href="/#appointment"
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1.2, type: 'spring', bounce: 0.3 }}

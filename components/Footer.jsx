@@ -2,21 +2,21 @@
 import { Phone, MapPin, Clock, Heart, ShieldCheck, Facebook, Instagram } from 'lucide-react';
 
 const services = [
-  { name: 'Root Canal Treatment', href: '#services' },
-  { name: 'Dental Implants', href: '#services' },
-  { name: 'Teeth Whitening', href: '#services' },
-  { name: 'Braces & Aligners', href: '#services' },
-  { name: 'Oral Surgery', href: '#services' },
-  { name: 'Diagnostics', href: '#services' },
+  { name: 'Root Canal Treatment', href: '/#services' },
+  { name: 'Dental Implants', href: '/#services' },
+  { name: 'Teeth Whitening', href: '/#services' },
+  { name: 'Braces & Aligners', href: '/#services' },
+  { name: 'Oral Surgery', href: '/#services' },
+  { name: 'Diagnostics', href: '/#services' },
 ];
 
 const quickLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Services', href: '#services' },
-  { label: 'Why Choose Us', href: '#why-us' },
-  { label: 'Smile Results', href: '#transformations' },
-  { label: 'Patient Reviews', href: '#testimonials' },
-  { label: 'Book Appointment', href: '#appointment' },
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Why Choose Us', href: '/#why-us' },
+  { label: 'Smile Results', href: '/#results' },
+  { label: 'Patient Reviews', href: '/#testimonials' },
+  { label: 'Book Appointment', href: '/#appointment' },
 ];
 
 export default function Footer() {

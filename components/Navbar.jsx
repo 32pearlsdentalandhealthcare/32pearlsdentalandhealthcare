@@ -4,10 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, Menu, X, Calendar, ShieldCheck } from 'lucide-react';
 
 const navLinks = [
-  { href: '#services', label: 'Services' },
-  { href: '#why-us', label: 'Why Us' },
-  { href: '#transformations', label: 'Results' },
-  { href: '#testimonials', label: 'Reviews' },
+  { href: '/#services', label: 'Services' },
+  { href: '/#why-us', label: 'Why Us' },
+  { href: '/#results', label: 'Results' },
+  { href: '/#testimonials', label: 'Reviews' },
   { href: '/careers', label: 'Careers' },
 ];
 
@@ -36,7 +36,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <a href="#" className="flex items-center group">
+            <a href="/" className="flex items-center group">
               <img 
                 src="/logo.png" 
                 alt="32 Pearls Dental Clinic" 
@@ -74,7 +74,7 @@ export default function Navbar() {
                 <span>+91 82965 52516</span>
               </a>
               <a
-                href="#appointment"
+                href="/#appointment"
                 className="bg-accent text-text-dark text-xs font-black uppercase tracking-wider px-8 py-4 rounded-full hover:scale-105 active:scale-95 transition-all shadow-gold border border-accent/20"
               >
                 Book Appointment
@@ -117,7 +117,7 @@ export default function Navbar() {
                   <Phone size={16} />
                   Call Now
                 </a>
-                <a href="#appointment" onClick={() => setMenuOpen(false)} className="flex items-center justify-center gap-3 bg-accent py-5 rounded-[24px] text-[10px] font-black uppercase tracking-widest text-text-dark shadow-gold">
+                <a href="/#appointment" onClick={() => setMenuOpen(false)} className="flex items-center justify-center gap-3 bg-accent py-5 rounded-[24px] text-[10px] font-black uppercase tracking-widest text-text-dark shadow-gold">
                   <Calendar size={16} />
                   Book Appointment
                 </a>
