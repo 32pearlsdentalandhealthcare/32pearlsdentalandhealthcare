@@ -52,14 +52,14 @@ export default function Hero() {
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-accent">
                   <Users size={20} strokeWidth={3} />
-                  <span className="text-xl font-black text-text-dark">1000+</span>
+                  <span className="text-xl font-black text-text-dark">10000+</span>
                 </div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Happy Patients</p>
               </div>
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-accent">
                   <Award size={20} strokeWidth={3} />
-                  <span className="text-xl font-black text-text-dark">5+</span>
+                  <span className="text-xl font-black text-text-dark">13+</span>
                 </div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Years Experience</p>
               </div>
