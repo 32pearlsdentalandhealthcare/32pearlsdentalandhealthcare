@@ -8,6 +8,7 @@ const navLinks = [
   { href: '#why-us', label: 'Why Us' },
   { href: '#transformations', label: 'Results' },
   { href: '#testimonials', label: 'Reviews' },
+  { href: '/careers', label: 'Careers' },
 ];
 
 export default function Navbar() {

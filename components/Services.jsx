@@ -143,7 +143,10 @@ export default function Services() {
           <h2 className="text-[28px] md:text-[38px] font-black text-[#ef8139] uppercase tracking-tighter leading-tight">
             Our Treatment, Products and Procedures
           </h2>
-          <div className="w-16 h-1.5 bg-[#ef8139] mx-auto mt-4 rounded-full"></div>
+          <div className="w-16 h-1.5 bg-[#ef8139] mx-auto mt-4 rounded-full mb-4"></div>
+          <p className="text-gray-600 max-w-lg mx-auto text-lg font-medium">
+            Premium dental treatments tailored to your unique smile. State-of-the-art care by expert specialists.
+          </p>
         </div>
 
         {/* Action List Section */}

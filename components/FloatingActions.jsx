@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, X } from 'lucide-react';
+import { Phone, X, Instagram } from 'lucide-react';
 
 const WhatsAppIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-7 h-7">
@@ -14,6 +14,40 @@ export default function FloatingActions() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+      {/* Instagram Button */}
+      <div className="relative flex items-center gap-2">
+        <AnimatePresence>
+          {showTooltip === 'insta' && (
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="glass rounded-xl px-3 py-2 shadow-glass text-sm font-medium text-text-dark whitespace-nowrap"
+            >
+              📸 Follow on Instagram
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <motion.a
+          href="https://instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0, scale: 0, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 1.0, type: 'spring', bounce: 0.4 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onMouseEnter={() => setShowTooltip('insta')}
+          onMouseLeave={() => setShowTooltip(null)}
+          className="rounded-full flex items-center justify-center shadow-glass relative"
+          style={{ width: 52, height: 52, background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)' }}
+          aria-label="Instagram"
+        >
+          <Instagram size={22} className="text-white" />
+          <span className="absolute inset-0 rounded-full border-2 border-pink-400/30 animate-ping" />
+        </motion.a>
+      </div>
+
       {/* Call Button */}
       <div className="relative flex items-center gap-2">
         <AnimatePresence>

@@ -13,13 +13,17 @@ import AppointmentForm from '@/components/AppointmentForm';
 import Footer from '@/components/Footer';
 import FloatingActions from '@/components/FloatingActions';
 import LeadPopup from '@/components/LeadPopup';
+import PromotionalHero from '@/components/PromotionalHero';
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
+      <PromotionalHero />
       <Navbar />
       <Hero />
       <HomeServiceBox />
+      
+      <ScrollGallery />
       
       <div id="services">
         <Services />
@@ -28,8 +32,6 @@ export default function Home() {
       <div id="why-us">
         <WhyChooseUs />
       </div>
-      
-      <ScrollGallery />
       
       <VideoReviews />
       
