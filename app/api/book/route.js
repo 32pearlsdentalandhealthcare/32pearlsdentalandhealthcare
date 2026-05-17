@@ -1,5 +1,6 @@
 import dbConnect from '@/lib/db';
 import Appointment from '@/models/Appointment';
+import { sendBookingNotification } from '@/lib/email';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
@@ -27,6 +28,15 @@ export async function POST(req) {
       status: 'Pending',
       location: location || null
     });
+
+    // Trigger Gmail notification asynchronously so it does not block patient response!
+    try {
+      sendBookingNotification(appointment).catch(err => {
+        console.error('Asynchronous Gmail notification crash:', err.message);
+      });
+    } catch (e) {
+      console.error('Sync Gmail notification error:', e.message);
+    }
 
     return NextResponse.json({ 
         success: true, 
