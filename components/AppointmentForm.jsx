@@ -46,8 +46,7 @@ export default function AppointmentForm() {
     } catch (error) {
       console.error('Submission error:', error);
       setStatus('idle');
-      alert('Success! We will contact you shortly.'); // Fallback for demo
-      setStatus('success');
+      alert(error.message || 'Failed to submit appointment. Please try again later.');
     }
   };
 

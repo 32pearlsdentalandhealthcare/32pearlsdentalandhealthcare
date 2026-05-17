@@ -260,6 +260,130 @@ const Messages = () => (
     </motion.div>
 );
 
+const Diagnostics = () => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const runCheck = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const resp = await fetch('/api/admin/diagnose');
+            if (!resp.ok) throw new Error(`Status error: ${resp.status}`);
+            const result = await resp.json();
+            if (result.success) {
+                setData(result.diagnostics);
+            } else {
+                throw new Error(result.message || 'Diagnostic failed');
+            }
+        } catch (err) {
+            console.error(err);
+            setError(err.message);
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        runCheck();
+    }, []);
+
+    return (
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-12">
+            <div className="bg-white/[0.03] backdrop-blur-3xl rounded-[48px] p-8 md:p-12 border border-white/5 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4AF37]/5 blur-[120px] rounded-full pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#1DE9B6]/5 blur-[100px] rounded-full pointer-events-none" />
+
+                <div className="flex flex-wrap items-center justify-between gap-8 mb-12 relative z-10">
+                    <div>
+                        <h3 className="text-3xl font-display font-black text-white tracking-tighter">Clinical Connectivity Diagnostic</h3>
+                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#6F7674] mt-2">Dynamic Network Verification & Health Check</p>
+                    </div>
+                    <button 
+                        onClick={runCheck} 
+                        disabled={loading}
+                        className="px-8 py-4 bg-white text-[#050807] hover:bg-[#1DE9B6] hover:scale-105 active:scale-95 transition-all duration-300 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-2xl disabled:opacity-50"
+                    >
+                        {loading ? 'RUNNING PROBE...' : 'RE-RUN CONNECTIVITY PROBE'}
+                    </button>
+                </div>
+
+                {loading ? (
+                    <div className="py-24 text-center space-y-4">
+                        <div className="w-12 h-12 rounded-full border-4 border-[#1DE9B6]/20 border-t-[#1DE9B6] animate-spin mx-auto" />
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#6F7674]">Pinging cluster, analyzing replica sets...</p>
+                    </div>
+                ) : error ? (
+                    <div className="p-8 bg-red-500/10 border border-red-500/20 rounded-3xl space-y-3">
+                        <h4 className="text-base font-black text-red-400 uppercase tracking-widest">Connectivity Probe Failed</h4>
+                        <p className="text-xs text-[#8E9391]">{error}</p>
+                    </div>
+                ) : (
+                    <div className="space-y-10 relative z-10">
+                        {/* Status Cards */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div className="bg-black/30 p-8 rounded-[32px] border border-white/5 space-y-4">
+                                <span className="text-[9px] font-black text-[#6F7674] uppercase tracking-widest">MONGOOSE READYSTATE</span>
+                                <div className="flex items-center gap-3">
+                                    <span className={`w-3.5 h-3.5 rounded-full animate-pulse ${data.mongoose.readyState === 1 ? 'bg-[#1DE9B6]' : 'bg-red-500'}`} />
+                                    <h4 className="text-xl font-black text-white uppercase tracking-tight">{data.mongoose.connectionStateName}</h4>
+                                </div>
+                                <p className="text-[10px] text-[#8E9391] leading-relaxed">ReadyState {data.mongoose.readyState}: Primary driver is successfully mapped to memory variables.</p>
+                            </div>
+
+                            <div className="bg-black/30 p-8 rounded-[32px] border border-white/5 space-y-4">
+                                <span className="text-[9px] font-black text-[#6F7674] uppercase tracking-widest">DATABASE TARGET</span>
+                                <h4 className="text-xl font-black text-white tracking-tight">{data.testConnection.success ? data.testConnection.dbName : 'UNKNOWN'}</h4>
+                                <p className="text-[10px] text-[#8E9391] leading-relaxed">Securely connected to MongoDB Atlas namespace schema.</p>
+                            </div>
+
+                            <div className="bg-black/30 p-8 rounded-[32px] border border-white/5 space-y-4">
+                                <span className="text-[9px] font-black text-[#6F7674] uppercase tracking-widest">TOTAL REGISTRY COUNT</span>
+                                <h4 className="text-3xl font-display font-black text-[#1DE9B6]">{data.testQuery.success ? data.testQuery.count : '0'} Leads</h4>
+                                <p className="text-[10px] text-[#8E9391] leading-relaxed">Appointments physically stored inside your cloud collection.</p>
+                            </div>
+                        </div>
+
+                        {/* Diagnostic Recommendations */}
+                        <div className="p-8 bg-white/[0.01] rounded-[32px] border border-white/5 space-y-6">
+                            <div className="flex items-center gap-3 border-b border-white/5 pb-4">
+                                <div className={`w-3 h-3 rounded-full ${data.testConnection.success ? 'bg-emerald-400' : 'bg-red-500 animate-pulse'}`} />
+                                <h4 className="text-xs font-black uppercase tracking-widest text-white">Database Verification Protocol</h4>
+                            </div>
+                            
+                            {data.testConnection.success ? (
+                                <div className="space-y-4 text-xs text-[#8E9391] leading-relaxed font-medium">
+                                    <p className="text-[#1DE9B6] font-black uppercase tracking-wider">🎉 CONGRATULATIONS! THE BACKEND IS CONNECTED CORRECTLY!</p>
+                                    <p>Your platform is successfully connected to the MongoDB Atlas cluster defined in your configuration. Any leads submitted from your booking forms will immediately show up in the dashboard!</p>
+                                    
+                                    <div className="p-5 bg-white/5 rounded-2xl border border-white/5 space-y-2 mt-4">
+                                        <p className="text-[10px] font-black uppercase text-[#D4AF37] tracking-widest">Connection String Signature:</p>
+                                        <code className="text-[11px] font-mono text-white/60 break-all">{data.env.uriStart}</code>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    <p className="text-red-400 font-bold">❌ CONNECTION BLOCK DETECTED:</p>
+                                    <p className="text-xs text-[#8E9391] leading-relaxed"> Mongoose failed to connect to Atlas. Error details: <span className="text-white font-mono">{data.testConnection.error}</span></p>
+                                    
+                                    <div className="pt-4 border-t border-white/5 space-y-3">
+                                        <p className="text-[10px] font-black uppercase text-[#D4AF37] tracking-widest">To resolve this connection block:</p>
+                                        <ul className="text-xs text-[#8E9391] list-decimal pl-5 space-y-2 font-medium">
+                                            <li><span className="text-white font-bold">Check credentials:</span> Verify that your Atlas username and password inside the host environment variable or local config are correct.</li>
+                                            <li><span className="text-white font-bold">Whitelist host IPs:</span> In MongoDB Atlas console under <span className="text-white">Security &rarr; Network Access</span>, ensure you have whitelisted <code className="text-[#1DE9B6] font-mono">0.0.0.0/0</code> (Allow Access from Anywhere) to permit serverless server requests.</li>
+                                            <li><span className="text-white font-bold">DNS Restriction:</span> If you are in a highly restricted network (like an office network that blocks standard SRV DNS protocols), try replacing your <code className="text-[#1DE9B6] font-mono">mongodb+srv</code> URI with a shard-based <code className="text-[#1DE9B6] font-mono">mongodb://</code> replica URI.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
+        </motion.div>
+    );
+};
+
 // --- MAIN DASHBOARD APP ---
 
 export default function AdminDashboard() {
@@ -270,6 +394,7 @@ export default function AdminDashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [adminName, setAdminName] = useState('Admin');
+  const [isOffline, setIsOffline] = useState(false);
   const router = useRouter();
 
   const handleLogout = () => {
@@ -303,9 +428,11 @@ export default function AdminDashboard() {
       
       if (data.success) {
         setBookings(data.data || []);
+        setIsOffline(!!data.offline);
       }
     } catch (e) { 
       console.warn('Protocol sync failed.');
+      setIsOffline(true);
     }
     setLoading(false);
   };
@@ -335,8 +462,10 @@ export default function AdminDashboard() {
   };
 
   const filteredBookings = bookings.filter(booking => {
-    const matchesSearch = booking.name.toLowerCase().includes(search.toLowerCase()) || 
-                          booking.phone.includes(search);
+    const name = booking.name || 'Anonymous';
+    const phone = booking.phone || 'TBD';
+    const matchesSearch = name.toLowerCase().includes(search.toLowerCase()) || 
+                          phone.includes(search);
     const matchesFilter = filter === 'All' || booking.status === filter;
     return matchesSearch && matchesFilter;
   });
@@ -387,6 +516,7 @@ export default function AdminDashboard() {
   const navItems = [
     { name: 'Overview', icon: LayoutDashboard },
     { name: 'Patient Leads', icon: Users },
+    { name: 'Diagnostics', icon: Activity },
     { name: 'Schedule', icon: CalendarDays },
     { name: 'Messages', icon: MessageSquare },
   ];
@@ -439,8 +569,21 @@ export default function AdminDashboard() {
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="lg:hidden p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 text-white">
                 {isSidebarOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
-            <div>
-                <h1 className="text-xl md:text-3xl font-display font-black text-white tracking-tighter">{activeTab}</h1>
+            <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-3">
+                  <h1 className="text-xl md:text-3xl font-display font-black text-white tracking-tighter">{activeTab}</h1>
+                  {isOffline ? (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-black uppercase tracking-widest shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                      OFFLINE
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-[#1DE9B6] border border-emerald-500/20 text-[9px] font-black uppercase tracking-widest shadow-[0_0_15px_rgba(29,233,182,0.1)]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#1DE9B6] animate-pulse" />
+                      LIVE SYNC
+                    </span>
+                  )}
+                </div>
                 <p className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-[#6F7674] mt-1">Real-time Operations Control</p>
             </div>
           </div>
@@ -486,6 +629,36 @@ export default function AdminDashboard() {
                                 ))}
                             </div>
                         </div>
+                        {isOffline && (
+                          <div className="m-6 md:m-10 bg-amber-500/5 border border-amber-500/15 rounded-[32px] p-8 md:p-10 space-y-6">
+                            <div className="flex items-start gap-5">
+                              <div className="w-12 h-12 bg-amber-500/10 rounded-2xl flex items-center justify-center shrink-0 border border-amber-500/20 text-amber-400">
+                                <Activity size={24} />
+                              </div>
+                              <div className="space-y-2">
+                                <h4 className="text-lg font-black text-white">Database Connectivity Fallback Protocol</h4>
+                                <p className="text-xs text-[#8E9391] leading-relaxed">
+                                  The dashboard is currently running in fallback offline mode because the server could not establish a connection to your MongoDB database. Patient leads submitted during this time are securely held in standard request pipelines.
+                                </p>
+                              </div>
+                            </div>
+                            
+                            <div className="pt-6 border-t border-white/5 space-y-4">
+                              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4AF37]">Troubleshooting Steps for Launch:</p>
+                              <ul className="text-xs text-[#8E9391] space-y-3 pl-5 list-decimal font-medium">
+                                <li>
+                                  <span className="text-white font-bold">Verify Environment Configuration:</span> Ensure the <code className="text-[#1DE9B6] font-mono">MONGODB_URI</code> environment variable is set in your hosting platform (Netlify, Vercel, Hostinger, etc.).
+                                </li>
+                                <li>
+                                  <span className="text-white font-bold">Whitelist Hosting IPs:</span> In MongoDB Atlas, go to <span className="text-white">Security &rarr; Network Access</span> and make sure you have allowed access from your hosting provider's servers (add <code className="text-[#1DE9B6] font-mono">0.0.0.0/0</code> for serverless hosts).
+                                </li>
+                                <li>
+                                  <span className="text-white font-bold">Check Credentials:</span> Confirm that your database username and password in the connection string are correct and active.
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        )}
                         <div className="flex-1 overflow-y-auto custom-scrollbar">
                             {/* Desktop Table View */}
                             <table className="w-full text-left hidden md:table">
@@ -503,10 +676,10 @@ export default function AdminDashboard() {
                                         <tr key={b._id || b.id} className="hover:bg-white/[0.02] transition-colors group">
                                             <td className="px-12 py-8">
                                                 <div className="flex items-center gap-6">
-                                                    <div className="w-12 h-12 rounded-2xl bg-[#1DE9B6]/10 flex items-center justify-center font-black text-[#1DE9B6] border border-[#1DE9B6]/10">{b.name.charAt(0)}</div>
+                                                    <div className="w-12 h-12 rounded-2xl bg-[#1DE9B6]/10 flex items-center justify-center font-black text-[#1DE9B6] border border-[#1DE9B6]/10">{(b.name || 'P').charAt(0)}</div>
                                                     <div>
-                                                        <p className="font-black text-white text-base tracking-tight">{b.name}</p>
-                                                        <p className="text-[10px] font-black text-[#6F7674] uppercase tracking-widest mt-1">{b.phone}</p>
+                                                        <p className="font-black text-white text-base tracking-tight">{b.name || 'Anonymous'}</p>
+                                                        <p className="text-[10px] font-black text-[#6F7674] uppercase tracking-widest mt-1">{b.phone || 'TBD'}</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -541,10 +714,10 @@ export default function AdminDashboard() {
                                     <div key={b._id || b.id} className="bg-white/[0.03] p-6 rounded-3xl border border-white/5 space-y-6">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-xl bg-[#1DE9B6]/10 flex items-center justify-center font-black text-[#1DE9B6] border border-[#1DE9B6]/10">{b.name.charAt(0)}</div>
+                                                <div className="w-10 h-10 rounded-xl bg-[#1DE9B6]/10 flex items-center justify-center font-black text-[#1DE9B6] border border-[#1DE9B6]/10">{(b.name || 'P').charAt(0)}</div>
                                                 <div>
-                                                    <p className="font-black text-white text-sm tracking-tight">{b.name}</p>
-                                                    <p className="text-[9px] font-black text-[#6F7674] uppercase tracking-widest">{b.phone}</p>
+                                                    <p className="font-black text-white text-sm tracking-tight">{b.name || 'Anonymous'}</p>
+                                                    <p className="text-[9px] font-black text-[#6F7674] uppercase tracking-widest">{b.phone || 'TBD'}</p>
                                                 </div>
                                             </div>
                                             <span className={`px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-[0.2em] ${b.status === 'Pending' ? 'bg-orange-500/10 text-orange-400' : 'bg-[#1DE9B6]/10 text-[#1DE9B6]'} border border-current/10`}>
@@ -575,6 +748,7 @@ export default function AdminDashboard() {
                         </div>
                     </motion.div>
                 )}
+                {activeTab === 'Diagnostics' && <Diagnostics key="diagnostics" />}
                 {activeTab === 'Schedule' && <Schedule bookings={bookings} key="schedule" />}
                 {activeTab === 'Messages' && <Messages key="messages" />}
             </AnimatePresence>

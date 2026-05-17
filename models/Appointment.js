@@ -17,11 +17,11 @@ const AppointmentSchema = new mongoose.Schema({
   },
   date: {
     type: String,
-    required: [true, 'Please provide a date.'],
+    default: 'TBD',
   },
   time: {
     type: String,
-    required: [true, 'Please provide a time.'],
+    default: 'TBD',
   },
   type: {
     type: String,

@@ -8,11 +8,14 @@ export async function POST(req) {
     const body = await req.json();
     
     // Validate inputs
-    const { name, phone, service, date, time, type, location } = body;
+    let { name, phone, service, date, time, type, location } = body;
     
-    if (!name || !phone || !service || !date || !time) {
+    if (!name || !phone || !service) {
       return NextResponse.json({ success: false, message: 'Missing required fields' }, { status: 400 });
     }
+
+    if (!date) date = 'TBD';
+    if (!time) time = 'TBD';
 
     const appointment = await Appointment.create({
       name,

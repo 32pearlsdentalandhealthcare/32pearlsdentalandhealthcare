@@ -40,7 +40,7 @@ export default function Navbar() {
               <img 
                 src="/logo.png" 
                 alt="32 Pearls Dental Clinic" 
-                className="h-16 sm:h-20 lg:h-24 w-auto object-contain transition-all duration-500 group-hover:scale-105"
+                className="h-24 sm:h-28 lg:h-36 w-auto object-contain transition-all duration-500 group-hover:scale-105"
               />
             </a>
 
