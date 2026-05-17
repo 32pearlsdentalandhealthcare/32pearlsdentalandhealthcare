@@ -1,26 +1,33 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Phone, Calendar, CheckCircle2, Loader2, Send } from 'lucide-react';
+import { User, Phone, Calendar, CheckCircle2, Loader2, Send, Stethoscope } from 'lucide-react';
 
 const services = [
+  "I don't know / General Consultation",
   'Root Canal Treatment',
-  'Dental Implants',
-  'Teeth Whitening',
   'Dental Fillings',
-  'Tooth Extraction',
-  'Braces & Aligners',
-  'Crowns & Bridges',
+  'Dental Crown',
+  'Dental Bridges',
   'Dentures',
-  'Oral Surgery',
-  'X-Ray / Diagnostics'
+  'Wisdom Tooth Removal',
+  'Implants',
+  'Aligners & Braces',
+  'Laser Dentistry',
+  'Maxillofacial Services',
+  'Teeth Scaling & Polishing',
+  'Sleep Apnea',
+  'Pediatric Dentistry',
+  'Cleft Lip & Palate',
+  'Oral Cysts & Tumors'
 ];
 
 export default function AppointmentForm() {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    service: ''
+    service: '',
+    date: ''
   });
 
   const [status, setStatus] = useState('idle'); // idle, loading, success
@@ -135,7 +142,7 @@ export default function AppointmentForm() {
                     <div className="space-y-2">
                       <label className="block text-[10px] font-black uppercase tracking-widest text-text-muted ml-1">Select Service</label>
                       <div className="relative">
-                        <Calendar className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300" size={18} />
+                        <Stethoscope className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300" size={18} />
                         <select
                           required
                           className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-5 pl-14 pr-12 text-text-dark appearance-none focus:outline-none focus:border-accent focus:bg-white transition-all font-bold text-sm"
@@ -147,6 +154,20 @@ export default function AppointmentForm() {
                             <option key={s} value={s}>{s}</option>
                           ))}
                         </select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-text-muted ml-1">Preferred Date</label>
+                      <div className="relative">
+                        <Calendar className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300" size={18} />
+                        <input
+                          required
+                          type="date"
+                          className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-5 pl-14 pr-5 text-text-dark focus:outline-none focus:border-accent focus:bg-white transition-all font-bold text-sm"
+                          value={formData.date}
+                          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                        />
                       </div>
                     </div>
 
