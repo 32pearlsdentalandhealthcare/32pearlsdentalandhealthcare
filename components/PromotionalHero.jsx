@@ -102,7 +102,7 @@ export default function PromotionalHero() {
                     transition={{ delay: 0.2 }}
                     className="flex flex-wrap gap-3 md:gap-4 mb-10"
                   >
-                    {['Braces', 'Clear Aligners', 'Dentures', 'Dental Implants'].map((service, idx) => (
+                    {['Braces', 'Clear Aligners', 'Dentures', 'Dental Implants', 'Root Canal', 'Zirconia Cap', 'Paediatric Dentistry', 'Maxillofacial Treatment'].map((service, idx) => (
                       <div key={idx} className="bg-white px-5 py-2.5 rounded-full flex items-center gap-2 shadow-lg shadow-yellow-900/10 hover:scale-105 transition-transform cursor-default">
                         <div className="w-6 h-6 rounded-full bg-yellow-100 flex items-center justify-center">
                           <Stethoscope className="w-3.5 h-3.5 text-yellow-600" />
