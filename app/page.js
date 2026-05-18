@@ -12,7 +12,7 @@ import Location from '@/components/Location';
 import AppointmentForm from '@/components/AppointmentForm';
 import Footer from '@/components/Footer';
 import FloatingActions from '@/components/FloatingActions';
-import LeadPopup from '@/components/LeadPopup';
+// Removed LeadPopup import per user request
 import PromotionalHero from '@/components/PromotionalHero';
 
 export default function Home() {
@@ -33,7 +33,9 @@ export default function Home() {
         <WhyChooseUs />
       </div>
       
-      <VideoReviews />
+      <div id="video-reviews">
+        <VideoReviews />
+      </div>
       
       <div id="doctors">
         <Doctors />
@@ -53,7 +55,6 @@ export default function Home() {
       
       <Footer />
       <FloatingActions />
-      <LeadPopup />
     </main>
   );
 }

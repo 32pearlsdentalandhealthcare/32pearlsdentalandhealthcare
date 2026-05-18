@@ -32,7 +32,7 @@ export default function PromotionalHero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 1.5, ease: "easeInOut" } }}
-          className="fixed inset-0 z-[9999] bg-white overflow-hidden"
+          className="fixed inset-0 z-[9999] bg-white overflow-y-auto"
         >
           {/* Skip Button */}
           <button 
@@ -42,7 +42,7 @@ export default function PromotionalHero() {
             <X className="w-6 h-6 text-gray-800" />
           </button>
 
-          <section className="bg-white h-screen flex flex-col justify-between py-4">
+          <section className="bg-white min-h-screen md:h-screen flex flex-col justify-between py-4">
             {/* 1. Top Header Bar */}
             <div className="w-full bg-white py-2 shadow-sm relative z-20 flex-shrink-0">
               <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -103,11 +103,11 @@ export default function PromotionalHero() {
                     className="flex flex-wrap gap-3 md:gap-4 mb-10"
                   >
                     {['Braces', 'Clear Aligners', 'Dentures', 'Dental Implants', 'Root Canal', 'Zirconia Cap', 'Paediatric Dentistry', 'Maxillofacial Treatment'].map((service, idx) => (
-                      <div key={idx} className="bg-white px-5 py-2.5 rounded-full flex items-center gap-2 shadow-lg shadow-yellow-900/10 hover:scale-105 transition-transform cursor-default">
-                        <div className="w-6 h-6 rounded-full bg-yellow-100 flex items-center justify-center">
-                          <Stethoscope className="w-3.5 h-3.5 text-yellow-600" />
+                      <div key={idx} className="bg-white px-3.5 py-2 md:px-5 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 shadow-lg shadow-yellow-900/10 hover:scale-105 transition-transform cursor-default">
+                        <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                          <Stethoscope className="w-3 md:w-3.5 h-3 md:h-3.5 text-yellow-600" />
                         </div>
-                        <span className="text-gray-800 font-extrabold text-sm md:text-base">{service}</span>
+                        <span className="text-gray-800 font-extrabold text-xs md:text-base whitespace-nowrap">{service}</span>
                       </div>
                     ))}
                   </motion.div>
@@ -169,7 +169,7 @@ export default function PromotionalHero() {
             </div>
 
             {/* 3. Statistics Row */}
-            <div className="max-w-7xl mx-auto px-6 mt-4 mb-2 relative z-10 w-full flex-shrink-0">
+            <div className="max-w-7xl mx-auto px-6 mt-4 mb-2 relative z-10 w-full flex-shrink-0 hidden md:block">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
                 
                 <div className="flex flex-col items-center md:flex-row md:items-start gap-4 text-center md:text-left">
